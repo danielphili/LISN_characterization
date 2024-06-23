@@ -119,8 +119,8 @@ ref_ul, ref_ll = import_DO160_LISN_output_impedance_limits()
 
 f_S21, _, S21 = \
     read_complex_S11_S21(fn="data/processed/INSERTION_LOSS_10k_1G.s2p")
-
-
+f_S21_600mA, _, S21_600mA = \
+    read_complex_S11_S21(fn="data/processed/INSERTION_LOSS_10k_1G_600mA.s2p")
 
 
 fig, ax = plt.subplots(1)
@@ -147,11 +147,12 @@ ax[0].set_ylabel("Impedance (Ohm)")
 ax[-1].set_xlabel("Frequency (MHz)")
 
 plt.tight_layout()
-
+plt.savefig("data/out/Z_outp_LISN.png", format="png")
 
 
 fig, ax = plt.subplots(1)
-ax.plot(f_S21/1E6, 20*np.log10(abs(S21)), label="Insertion loss (dB)")
+ax.plot(f_S21/1E6, -20*np.log10(abs(S21)), label="Insertion loss (dB)")
+ax.plot(f_S21_600mA/1E6, -20*np.log10(abs(S21_600mA)), label="Insertion loss (dB) @ 600 mA")
 ax.grid("both")
 ax.legend()
 ax.set_xscale("log")
@@ -161,3 +162,4 @@ ax.set_xscale("log")
 ax.set_ylabel("Level (dB)")
 ax.set_xlabel("Frequency (MHz)")
 plt.tight_layout()
+plt.savefig("data/out/Insertion_loss.png", format="png")
