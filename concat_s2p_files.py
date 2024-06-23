@@ -27,15 +27,28 @@ Email: dphilipps@freenet.de
 # filename_out = "data/processed/INSERTION_LOSS_10k_1G.s2p"
 
 
+
 filenames_in = [
-    "data/raw/THRU_10k_100k.s2p",
-    "data/raw/THRU_100k_1M.s2p",
-    "data/raw/THRU_1M_10M.s2p",
-    "data/raw/THRU_10M_100M.s2p",
-    "data/raw/THRU_100M_1G.s2p",
+    "data/raw/INSERTION_LOSS_10k_100k_600mA.s2p",
+    "data/raw/INSERTION_LOSS_100k_1M_600mA.s2p",
+    "data/raw/INSERTION_LOSS_1M_10M_600mA.s2p",
+    "data/raw/INSERTION_LOSS_10M_100M_600mA.s2p",
+    "data/raw/INSERTION_LOSS_100M_1G_600mA.s2p",
     ]
 
-filename_out = "data/processed/THRU_10k_1G.s2p"
+filename_out = "data/processed/INSERTION_LOSS_10k_1G_600mA.s2p"
+
+
+
+# filenames_in = [
+#     "data/raw/THRU_10k_100k.s2p",
+#     "data/raw/THRU_100k_1M.s2p",
+#     "data/raw/THRU_1M_10M.s2p",
+#     "data/raw/THRU_10M_100M.s2p",
+#     "data/raw/THRU_100M_1G.s2p",
+#     ]
+
+# filename_out = "data/processed/THRU_10k_1G.s2p"
 
 
 
