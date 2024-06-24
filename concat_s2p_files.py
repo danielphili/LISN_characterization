@@ -16,6 +16,8 @@ Email: dphilipps@freenet.de
 
 """
 
+
+# # standard with open clamps
 # filenames_in = [
 #     "data/raw/INSERTION_LOSS_10k_100k.s2p",
 #     "data/raw/INSERTION_LOSS_100k_1M.s2p",
@@ -28,27 +30,70 @@ Email: dphilipps@freenet.de
 
 
 
-filenames_in = [
-    "data/raw/INSERTION_LOSS_10k_100k_600mA.s2p",
-    "data/raw/INSERTION_LOSS_100k_1M_600mA.s2p",
-    "data/raw/INSERTION_LOSS_1M_10M_600mA.s2p",
-    "data/raw/INSERTION_LOSS_10M_100M_600mA.s2p",
-    "data/raw/INSERTION_LOSS_100M_1G_600mA.s2p",
-    ]
-
-filename_out = "data/processed/INSERTION_LOSS_10k_1G_600mA.s2p"
-
-
-
+# # with HF blocking inductor that conducts DC bias current (0mA)
 # filenames_in = [
-#     "data/raw/THRU_10k_100k.s2p",
-#     "data/raw/THRU_100k_1M.s2p",
-#     "data/raw/THRU_1M_10M.s2p",
-#     "data/raw/THRU_10M_100M.s2p",
-#     "data/raw/THRU_100M_1G.s2p",
+#     "data/raw/INSERTION_LOSS_10k_100k_0mA.s2p",
+#     "data/raw/INSERTION_LOSS_100k_1M_0mA.s2p",
+#     "data/raw/INSERTION_LOSS_1M_10M_0mA.s2p",
+#     "data/raw/INSERTION_LOSS_10M_100M_0mA.s2p",
+#     "data/raw/INSERTION_LOSS_100M_1G_0mA.s2p",
 #     ]
 
-# filename_out = "data/processed/THRU_10k_1G.s2p"
+# filename_out = "data/processed/INSERTION_LOSS_10k_1G_0mA.s2p"
+
+
+
+# # with HF blocking inductor that conducts DC bias current (600mA)
+# filenames_in = [
+#     "data/raw/INSERTION_LOSS_10k_100k_600mA.s2p",
+#     "data/raw/INSERTION_LOSS_100k_1M_600mA.s2p",
+#     "data/raw/INSERTION_LOSS_1M_10M_600mA.s2p",
+#     "data/raw/INSERTION_LOSS_10M_100M_600mA.s2p",
+#     "data/raw/INSERTION_LOSS_100M_1G_600mA.s2p",
+#     ]
+
+# filename_out = "data/processed/INSERTION_LOSS_10k_1G_600mA.s2p"
+
+
+
+# # with HF blocking inductor that conducts DC bias current (1000mA)
+# filenames_in = [
+#     "data/raw/INSERTION_LOSS_10k_100k_1000mA.s2p",
+#     "data/raw/INSERTION_LOSS_100k_1M_1000mA.s2p",
+#     "data/raw/INSERTION_LOSS_1M_10M_1000mA.s2p",
+#     "data/raw/INSERTION_LOSS_10M_100M_1000mA.s2p",
+#     "data/raw/INSERTION_LOSS_100M_1G_1000mA.s2p",
+#     ]
+
+# filename_out = "data/processed/INSERTION_LOSS_10k_1G_1000mA.s2p"
+
+
+
+# # with HF blocking inductor that conducts DC bias current (1500mA)
+# filenames_in = [
+#     "data/raw/INSERTION_LOSS_10k_100k_1500mA.s2p",
+#     "data/raw/INSERTION_LOSS_100k_1M_1500mA.s2p",
+#     "data/raw/INSERTION_LOSS_1M_10M_1500mA.s2p",
+#     "data/raw/INSERTION_LOSS_10M_100M_1500mA.s2p",
+#     "data/raw/INSERTION_LOSS_100M_1G_1500mA.s2p",
+#     ]
+
+# filename_out = "data/processed/INSERTION_LOSS_10k_1G_1500mA.s2p"
+
+
+
+# with HF blocking inductor that conducts DC bias current (2000mA)
+filenames_in = [
+    "data/raw/INSERTION_LOSS_10k_100k_2000mA.s2p",
+    "data/raw/INSERTION_LOSS_100k_1M_2000mA.s2p",
+    "data/raw/INSERTION_LOSS_1M_10M_2000mA.s2p",
+    "data/raw/INSERTION_LOSS_10M_100M_2000mA.s2p",
+    "data/raw/INSERTION_LOSS_100M_1G_2000mA.s2p",
+    ]
+
+filename_out = "data/processed/INSERTION_LOSS_10k_1G_2000mA.s2p"
+
+
 
 
 
