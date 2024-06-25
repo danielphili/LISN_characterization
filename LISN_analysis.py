@@ -22,6 +22,8 @@ def import_DO160_LISN_output_impedance_limits() -> np.array:
     """
     import the upper and lower limit of the LISN output impedance according to
     DO-160 (source: https://documentation.com-power.com/pdf/LI-3100-2.pdf)
+    The original graph found in DO-160 p20-29 (FIGURE 20-1) seems to be in
+    good agreement with the linked graph.
 
     Returns
     -------
@@ -147,9 +149,9 @@ ax[0].plot(f_supply_open/1E6, abs(Z_outp_supply_open),
 ax[0].plot(f_supply_short/1E6, abs(Z_outp_supply_short), 
            label="$|Z_\mathrm{out,LISN,short}|$")
 ax[0].plot(f_bias_1000mA/1E6, abs(Z_outp_bias_1000mA), 
-           label="$|Z_\mathrm{out,LISN}|$ @ 1000 mA bias$")
+           label="$|Z_\mathrm{out,LISN}|$ @ 1000 mA bias")
 ax[0].plot(f_bias_2000mA/1E6, abs(Z_outp_bias_2000mA), 
-           label="$|Z_\mathrm{out,LISN}|$ @ 2000 mA bias$")
+           label="$|Z_\mathrm{out,LISN}|$ @ 2000 mA bias")
 ax[0].plot(ref_ul[:,0], ref_ul[:,1], color="red", linestyle="--",
            label="DO-160 limits")
 ax[0].plot(ref_ll[:,0], ref_ll[:,1], color="red", linestyle="--")
@@ -195,3 +197,10 @@ ax.set_ylabel("S21 Transmission Coefficient (dB)")
 ax.set_xlabel("Frequency (MHz)")
 plt.tight_layout()
 plt.savefig("data/out/Insertion_loss.png", format="png")
+
+
+
+
+df = pd.DataFrame(np.array([f_S21_1000mA, 20*np.log10(abs(S21_1000mA))]).T,
+                  columns = ["F", "INS_LOSS"])
+df.to_csv("data/out/insertion_loss_1000mA.csv", index=False)
