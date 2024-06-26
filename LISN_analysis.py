@@ -18,6 +18,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
+figsize = None
+resolution = 600 # dpi
+
+
+
 def import_DO160_LISN_output_impedance_limits() -> np.array:
     """
     import the upper and lower limit of the LISN output impedance according to
@@ -109,47 +114,51 @@ def calculate_impedance(S11:np.array, Z0:float = 50.0, Z0_par:bool = False) \
     return Z_outp
 
 
-f_supply_open, S11_supply_open, _ = \
+f_supply_open, S11_supply_open, _           = \
     read_complex_S11_S21(fn="data/raw/ZOUTP_ISO_SUPPLY_OPEN.s2p")
-f_supply_short, S11_supply_short, _ = \
+f_supply_short, S11_supply_short, _         = \
     read_complex_S11_S21(fn="data/raw/ZOUTP_ISO_SUPPLY_SHORT.s2p")
-f_bias_1000mA, S11_bias_1000mA, _ = \
-    read_complex_S11_S21(fn="data/processed/INSERTION_LOSS_10k_1G_1000mA.s2p")
-f_bias_2000mA, S11_bias_2000mA, _ = \
-    read_complex_S11_S21(fn="data/processed/INSERTION_LOSS_10k_1G_2000mA.s2p")
-
-Z_outp_supply_open = calculate_impedance(S11_supply_open)
-Z_outp_supply_short = calculate_impedance(S11_supply_short)
-Z_outp_bias_1000mA = calculate_impedance(S11_bias_1000mA)
-Z_outp_bias_2000mA = calculate_impedance(S11_bias_2000mA)
-ref_ul, ref_ll = import_DO160_LISN_output_impedance_limits()
-
-
 f_S21, _, S21 = \
     read_complex_S11_S21(fn="data/processed/INSERTION_LOSS_10k_1G.s2p")
-f_S21_0mA, _, S21_0mA = \
+
+f_bias_0mA, S11_bias_0mA, S21_0mA           = \
     read_complex_S11_S21(fn="data/processed/INSERTION_LOSS_10k_1G_0mA.s2p")
-f_S21_600mA, _, S21_600mA = \
+f_bias_600mA, S11_bias_600mA, S21_600mA     = \
     read_complex_S11_S21(fn="data/processed/INSERTION_LOSS_10k_1G_600mA.s2p")
-f_S21_1000mA, _, S21_1000mA = \
+f_bias_1000mA, S11_bias_1000mA, S21_1000mA  = \
     read_complex_S11_S21(fn="data/processed/INSERTION_LOSS_10k_1G_1000mA.s2p")
-f_S21_1500mA, _, S21_1500mA = \
+f_bias_1500mA, S11_bias_1500mA, S21_1500mA  = \
     read_complex_S11_S21(fn="data/processed/INSERTION_LOSS_10k_1G_1500mA.s2p")
-f_S21_2000mA, _, S21_2000mA = \
+f_bias_2000mA, S11_bias_2000mA, S21_2000mA  = \
     read_complex_S11_S21(fn="data/processed/INSERTION_LOSS_10k_1G_2000mA.s2p")
+
+Z_outp_supply_open  = calculate_impedance(S11_supply_open)
+Z_outp_supply_short = calculate_impedance(S11_supply_short)
+Z_outp_bias_0mA     = calculate_impedance(S11_bias_0mA)
+Z_outp_bias_600mA   = calculate_impedance(S11_bias_600mA)
+Z_outp_bias_1000mA  = calculate_impedance(S11_bias_1000mA)
+Z_outp_bias_1500mA  = calculate_impedance(S11_bias_1500mA)
+Z_outp_bias_2000mA  = calculate_impedance(S11_bias_2000mA)
+
+ref_ul, ref_ll = import_DO160_LISN_output_impedance_limits()
+
 
 
 
 # plot LISN impedance
-fig, ax = plt.subplots(1)
+fig, ax = plt.subplots(1, figsize=figsize)
 # ax = [ax, ax.twinx()]
 ax = [ax]
 ax[0].plot(f_supply_open/1E6, abs(Z_outp_supply_open), 
            label="$|Z_\mathrm{out,LISN,open}|$")
 ax[0].plot(f_supply_short/1E6, abs(Z_outp_supply_short), 
            label="$|Z_\mathrm{out,LISN,short}|$")
+ax[0].plot(f_bias_600mA/1E6, abs(Z_outp_bias_600mA), 
+           label="$|Z_\mathrm{out,LISN}|$ @ 600 mA bias")
 ax[0].plot(f_bias_1000mA/1E6, abs(Z_outp_bias_1000mA), 
            label="$|Z_\mathrm{out,LISN}|$ @ 1000 mA bias")
+ax[0].plot(f_bias_1500mA/1E6, abs(Z_outp_bias_1500mA), 
+           label="$|Z_\mathrm{out,LISN}|$ @ 1500 mA bias")
 ax[0].plot(f_bias_2000mA/1E6, abs(Z_outp_bias_2000mA), 
            label="$|Z_\mathrm{out,LISN}|$ @ 2000 mA bias")
 ax[0].plot(ref_ul[:,0], ref_ul[:,1], color="red", linestyle="--",
@@ -168,23 +177,23 @@ ax[0].set_ylabel("Impedance (Ohm)")
 ax[-1].set_xlabel("Frequency (MHz)")
 
 plt.tight_layout()
-plt.savefig("data/out/Z_outp_LISN.png", format="png")
+plt.savefig("data/out/Z_outp_LISN.png", format="png", dpi=resolution)
 
 
 
 # plot insertion loss for different bias current scenarios
-fig, ax = plt.subplots(1)
+fig, ax = plt.subplots(1, figsize=figsize)
 ax.plot(f_S21/1E6, 20*np.log10(abs(S21)),
         label="0 mA (open terminals)")
-ax.plot(f_S21_0mA/1E6, 20*np.log10(abs(S21_0mA)),
+ax.plot(f_bias_0mA/1E6, 20*np.log10(abs(S21_0mA)),
         label="0 mA")
-ax.plot(f_S21_600mA/1E6, 20*np.log10(abs(S21_600mA)),
+ax.plot(f_bias_600mA/1E6, 20*np.log10(abs(S21_600mA)),
         label="600 mA")
-ax.plot(f_S21_1000mA/1E6, 20*np.log10(abs(S21_1000mA)),
+ax.plot(f_bias_1000mA/1E6, 20*np.log10(abs(S21_1000mA)),
         label="1000 mA")
-ax.plot(f_S21_1500mA/1E6, 20*np.log10(abs(S21_1500mA)),
+ax.plot(f_bias_1500mA/1E6, 20*np.log10(abs(S21_1500mA)),
         label="1500 mA")
-ax.plot(f_S21_2000mA/1E6, 20*np.log10(abs(S21_2000mA)),
+ax.plot(f_bias_2000mA/1E6, 20*np.log10(abs(S21_2000mA)),
         label="2000 mA")
 
 ax.grid("both")
@@ -196,11 +205,57 @@ ax.set_xscale("log")
 ax.set_ylabel("S21 Transmission Coefficient (dB)")
 ax.set_xlabel("Frequency (MHz)")
 plt.tight_layout()
-plt.savefig("data/out/Insertion_loss.png", format="png")
+plt.savefig("data/out/Insertion_loss.png", format="png", dpi=resolution)
 
 
 
+#%% data export
 
-df = pd.DataFrame(np.array([f_S21_1000mA, 20*np.log10(abs(S21_1000mA))]).T,
+## LISN insertion loss
+df = pd.DataFrame(np.array([f_bias_0mA, 20*np.log10(abs(S21_0mA))]).T,
+                  columns = ["F", "INS_LOSS"])
+df.to_csv("data/out/insertion_loss_0mA.csv", index=False)
+
+df = pd.DataFrame(np.array([f_bias_600mA, 20*np.log10(abs(S21_600mA))]).T,
+                  columns = ["F", "INS_LOSS"])
+df.to_csv("data/out/insertion_loss_600mA.csv", index=False)
+
+df = pd.DataFrame(np.array([f_bias_1000mA, 20*np.log10(abs(S21_1000mA))]).T,
                   columns = ["F", "INS_LOSS"])
 df.to_csv("data/out/insertion_loss_1000mA.csv", index=False)
+
+df = pd.DataFrame(np.array([f_bias_1500mA, 20*np.log10(abs(S21_1500mA))]).T,
+                  columns = ["F", "INS_LOSS"])
+df.to_csv("data/out/insertion_loss_1500mA.csv", index=False)
+
+df = pd.DataFrame(np.array([f_bias_2000mA, 20*np.log10(abs(S21_2000mA))]).T,
+                  columns = ["F", "INS_LOSS"])
+df.to_csv("data/out/insertion_loss_2000mA.csv", index=False)
+
+
+## LISN output impedance
+df = pd.DataFrame(np.array([f_bias_0mA, Z_outp_bias_0mA]).T,
+                  columns = ["F", "Z_LISN"])
+df.to_csv("data/out/Z_outp_bias_0mA.csv", index=False)
+
+df = pd.DataFrame(np.array([f_bias_600mA, Z_outp_bias_600mA]).T,
+                  columns = ["F", "Z_LISN"])
+df.to_csv("data/out/Z_outp_bias_600mA.csv", index=False)
+
+df = pd.DataFrame(np.array([f_bias_1000mA, Z_outp_bias_1000mA]).T,
+                  columns = ["F", "Z_LISN"])
+df.to_csv("data/out/Z_outp_bias_1000mA.csv", index=False)
+
+df = pd.DataFrame(np.array([f_bias_1500mA, Z_outp_bias_1500mA]).T,
+                  columns = ["F", "Z_LISN"])
+df.to_csv("data/out/Z_outp_bias_1500mA.csv", index=False)
+
+df = pd.DataFrame(np.array([f_bias_2000mA, Z_outp_bias_2000mA]).T,
+                  columns = ["F", "Z_LISN"])
+df.to_csv("data/out/Z_outp_bias_2000mA.csv", index=False)
+
+
+
+
+
+
